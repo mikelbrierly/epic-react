@@ -14,9 +14,40 @@ import '../box-styles.css'
 // 🐨 also use the style prop to make the font italic
 // 💰 Here are available style attributes: backgroundColor, fontStyle
 
-const smallBox = <div>small lightblue box</div>
-const mediumBox = <div>medium pink box</div>
-const largeBox = <div>large orange box</div>
+// Example of what destructuring fixes:
+// const Es5Box = params => {
+//   let size = params.size === undefined ? '' : params.size
+//   let style = params.style
+//   let otherProps = params
+
+//------------------------------take the REST of the parameter values
+const Box = ({size = '', style, ...otherProps}) => {
+  if (!otherProps.children) otherProps = {children: 'placeholder'}
+  return (
+    <div
+      className={`box box--${size}`}
+      //---------------------------SPREAD these values out
+      style={{fontStyle: 'italic', ...style}}
+      {...otherProps}
+    />
+  )
+}
+
+const smallBox = (
+  <Box size="small" style={{backgroundColor: 'lightblue'}}>
+    small lightblue box
+  </Box>
+)
+const mediumBox = (
+  <Box size="medium" style={{backgroundColor: 'pink'}}>
+    medium pink box
+  </Box>
+)
+const largeBox = (
+  <Box size="large" style={{backgroundColor: 'orange'}}>
+    large orange box
+  </Box>
+)
 
 function App() {
   return (
@@ -24,6 +55,7 @@ function App() {
       {smallBox}
       {mediumBox}
       {largeBox}
+      <Box></Box>
     </div>
   )
 }
