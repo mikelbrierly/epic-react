@@ -2,24 +2,18 @@
 // http://localhost:3000/isolated/exercise/06.js
 
 import * as React from 'react'
-import {useRef} from 'react'
 
 const UsernameForm = ({onSubmitUsername}) => {
-  const usernameInputRef = useRef(null)
-  const [error, setError] = React.useState(null)
+  const [inputValue, setInputValue] = React.useState('')
 
   function handleSubmit(event) {
     event.preventDefault()
-    onSubmitUsername(usernameInputRef.current.value)
+    onSubmitUsername(inputValue)
   }
 
   function handleChange(event) {
     const {value} = event.target
-    const isLowercase = text => text === text.toLowerCase()
-    if (!isLowercase(value)) {
-      return setError(`${value} is not a valid username`)
-    }
-    setError(null)
+    setInputValue(value.toLowerCase())
   }
 
   return (
@@ -28,17 +22,12 @@ const UsernameForm = ({onSubmitUsername}) => {
         <label htmlFor="usernameInput">Username:</label>
         <input
           type="text"
+          value={inputValue}
           id="usernameInput"
-          ref={usernameInputRef}
           onChange={handleChange}
         />
-        <span role="alert" style={{display: 'block', color: 'red'}}>
-          {error}
-        </span>
       </div>
-      <button type="submit" disabled={!!error}>
-        Submit
-      </button>
+      <button type="submit">Submit</button>
     </form>
   )
 }
